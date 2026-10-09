@@ -1,0 +1,2 @@
+model,accuracy,precision,recall,f1,roc_auc,roc_auc_std
+Logistic Refression,0.749,0.518,0.798,0.628,0.846,0.012
