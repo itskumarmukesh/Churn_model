@@ -1,2 +1,5 @@
 model,accuracy,precision,recall,f1,roc_auc,roc_auc_std
-Logistic Refression,0.749,0.518,0.798,0.628,0.846,0.012
+Logistic Regression,0.749,0.518,0.798,0.628,0.846,0.012
+Decision Tree,0.73,0.497,0.809,0.615,0.825,0.013
+Random Forest,0.77,0.548,0.754,0.635,0.846,0.011
+Gradient Boosting,0.763,0.537,0.763,0.63,0.843,0.011
