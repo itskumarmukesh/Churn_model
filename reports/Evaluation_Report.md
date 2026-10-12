@@ -36,8 +36,11 @@
 - Sensitivity: at a 15% success rate the best threshold is 0.80 and profit is about 0.2 dollar at 40% it is 0.35 and profit is 27.6 dollar
 
 ## Limitations
-- One snapshot of sample data from a fictional company: no dates, so no time-based validation
-- The test set has 374 churners, so scores carry about +/-0.02 AUC of uncertainty
-- Business figures are assumptions; the actual value depends on real offer costs and success rates
-- The model finds who is likely to leave, not what would keep them; offer effectiveness needs an A/B test
-- The data has no usage, support-call or price-history columns, and the score appears to plateau near 0.85 AUC
+- Blind to long-contract churners: recall on 1-2 year contracts is 2.2% (1 of 45 caught). They churn at only 7.1%, so they are not economically worth contacting at threshold 0.5, but the model also has no signal to find them. Hypothesis: they leave at renewal, the data has no contract end dates.
+- Weak after the first year: recall 32% (108 of the 174 missed churners). Early-life churn (first year) is caught well: recall 69%.
+- One snapshot of sample data from a fictional company; no dates, so no time-based validation.
+- The test set has 374 churners, so scores carry about +/-0.02 AUC of uncertainty. The challenger's higher test PR-AUC (+0.008 to +0.048 in a bootstrap) did not replicate in cross-validation on training data (0.003/0.004, no consistent winner), so it is treated as test-split luck and the pre-committed model was kept.
+- Business figures are assumptions; real value depends on offer cost and success rate.
+- The model finds who is likely to leave, not what would keep them; this needs an A/B test.
+- Model weights on correlated columns (tenure, MonthlyCharges, TotalCharges) cannot be read individually.
+- Gender has no effect on the score (ROC-AUC 0.8466 vs 0.8467 without it) and is excluded by default in the reusable pipeline.
