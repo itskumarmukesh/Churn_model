@@ -1,0 +1,8 @@
+name: cell2cell
+data_path: data/raw/cell2celltrain.csv
+target: Churn
+positive_label: "Yes"
+id_column: CustomerID
+drop_columns: [MadeCallToRetentionTeam, RetentionCalls, RetentionOffersAccepted]
+numeric_from_text: []
+zero_means_missing: [AgeHH1, AgeHH2]

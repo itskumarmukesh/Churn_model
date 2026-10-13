@@ -1,0 +1,7 @@
+ name: telco
+ data_path: data/raw/Telco-Customer-Churn.csv
+ target: "Yes"
+ id_column: customerID
+ drop_columns: [gender]
+ numeric_from_text: [TotalCharges]
+ zero_means_missing: []
