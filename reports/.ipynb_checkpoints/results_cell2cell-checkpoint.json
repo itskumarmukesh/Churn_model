@@ -1,0 +1,54 @@
+{
+  "dataset": "cell2cell",
+  "rows": 51047,
+  "churn_rate": 0.2881853977706819,
+  "data_warnings": [
+    "Column 'AgeHH2' is 53% missing"
+  ],
+  "model_comparison": [
+    {
+      "model": "Logistic Regression",
+      "roc_auc": 0.6161694211607872,
+      "roc_auc_std": 0.010361810883423911,
+      "pr_auc": 0.3816124906345231
+    },
+    {
+      "model": "Boosting (shallow)",
+      "roc_auc": 0.6620317438013905,
+      "roc_auc_std": 0.008664128923848071,
+      "pr_auc": 0.4321058540466673
+    },
+    {
+      "model": "Boosting (deep)",
+      "roc_auc": 0.6765316783910851,
+      "roc_auc_std": 0.009830141939992093,
+      "pr_auc": 0.4545145053969259
+    }
+  ],
+  "primary_model": "Boosting (deep)",
+  "threshold": 0.5,
+  "business_assuptions": {
+    "value_saved": 800,
+    "cost_contact": 100,
+    "success_rate": 0.25
+  },
+  "test": {
+    "roc_auc": 0.6736835562762296,
+    "roc_auc_low": 0.6627081890155638,
+    "roc_auc_high": 0.6849762213234543,
+    "pr_auc": 0.45522333830554645,
+    "brier": 0.18868056218180673,
+    "threshold": 0.5,
+    "share_contacted_pct": 5.5435847208619,
+    "precision": 0.6130742049469965,
+    "recall": 0.11794697484704283,
+    "tp": 347,
+    "fp": 219,
+    "fn": 2595,
+    "tn": 7049,
+    "profit_model": 1.2536728697355535,
+    "profit_everyone": -42.37022526934378,
+    "top20_share_of_churners_pct": 33.344663494221614,
+    "top20_lift": 1.6672331747110807
+  }
+}

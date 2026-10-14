@@ -1,0 +1,52 @@
+{
+  "dataset": "telco",
+  "rows": 7043,
+  "churn_rate": 0.2653698707936959,
+  "data_warnings": [],
+  "model_comparison": [
+    {
+      "model": "Logistic Regression",
+      "roc_auc": 0.8463083166249918,
+      "roc_auc_std": 0.01250998202993691,
+      "pr_auc": 0.6613325095430269
+    },
+    {
+      "model": "Boosting (shallow)",
+      "roc_auc": 0.8498463134420989,
+      "roc_auc_std": 0.011614379358186362,
+      "pr_auc": 0.6692044186730909
+    },
+    {
+      "model": "Boosting (deep)",
+      "roc_auc": 0.8365074044098144,
+      "roc_auc_std": 0.008568770352989724,
+      "pr_auc": 0.6465384227456403
+    }
+  ],
+  "primary_model": "Logistic Regression",
+  "threshold": 0.55,
+  "business_assuptions": {
+    "value_saved": 800,
+    "cost_contact": 100,
+    "success_rate": 0.25
+  },
+  "test": {
+    "roc_auc": 0.8424604097238368,
+    "roc_auc_low": 0.8194884704104601,
+    "roc_auc_high": 0.8628300329592864,
+    "pr_auc": 0.6340783152132556,
+    "brier": 0.13791736907669966,
+    "threshold": 0.55,
+    "share_contacted_pct": 18.168914123491838,
+    "precision": 0.67578125,
+    "recall": 0.4625668449197861,
+    "tp": 173,
+    "fp": 83,
+    "fn": 201,
+    "tn": 952,
+    "profit_model": 6.387508871540099,
+    "profit_everyone": -46.91270404542229,
+    "top20_share_of_churners_pct": 50.0,
+    "top20_lift": 2.5071174377224197
+  }
+}

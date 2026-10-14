@@ -6,3 +6,7 @@ id_column: CustomerID
 drop_columns: [MadeCallToRetentionTeam, RetentionCalls, RetentionOffersAccepted]
 numeric_from_text: []
 zero_means_missing: [AgeHH1, AgeHH2]
+business:
+  value_saved: 800
+  cost_contact: 100
+  success_rate: 0.25

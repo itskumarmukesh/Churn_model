@@ -29,7 +29,7 @@ def load_and_prepare(cfg):
         columns_to_drop.append(cfg["id_column"])
     X = df.drop(columns=columns_to_drop)
 
-    # columns stored as text that are really numbers (blank text becomes a missing value)
+        # columns stored as text that are really numbers (blank text becomes a missing value)
     for col in cfg["numeric_from_text"]:
         X[col] = pd.to_numeric(X[col], errors="coerce")
 
@@ -45,6 +45,9 @@ def check_data(X, y, ids=None):
     found = []
     print("Rows:", X.shape[0], "| feature columns:", X.shape[1])
     print("Churn rate:", round(y.mean(), 4))
+
+    if y.mean() < 0.05 or y.mean() > 0.95:
+        found.append(f"Churn rate is {y.mean() * 100:.1f} %: extreme class imbalance," "rely on PR_AUC and be careful with accuracy")
 
     if ids is not None and not ids.is_unique:
         found.append("The ID column has repeated values")

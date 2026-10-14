@@ -3,6 +3,10 @@ data_path: data/raw/Telco-Customer-Churn.csv
 target: Churn
 positive_label: "Yes"
 id_column: customerID
-drop_columns: [gender]          
+drop_columns: [gender]
 numeric_from_text: [TotalCharges]
 zero_means_missing: []
+business:
+  value_saved: 800
+  cost_contact: 100
+  success_rate: 0.25
