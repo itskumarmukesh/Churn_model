@@ -18,6 +18,10 @@ def load_and_prepare(cfg):
         print("Dropped", n_missing_target, "row(s) with a missing target")
         df = df[df[target].notnull()].copy()
 
+    if cfg["sample_rows"] is not None and len(df) > cfg["sample_rows"]:
+        df = df.sample(cfg["sample_rows"], random_state = cfg["random_state"])
+        print("Using a random sample of", cfg["sample_rows"], "rows")
+
     y = (df[target] == cfg["positive_label"]).astype(int)
 
     ids = None

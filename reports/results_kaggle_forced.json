@@ -1,0 +1,55 @@
+{
+  "dataset": "kaggle_forced",
+  "rows": 50000,
+  "churn_rate": 0.5691,
+  "data_warnings": [
+    "Contract Length = 'Monthly' has a churn rate of 100.0% on 10001 customers: a perfect rule, possible leakage or synthetic data"
+  ],
+  "model_comparison": [
+    {
+      "model": "Logistic Regression",
+      "roc_auc": 0.958705607434128,
+      "roc_auc_std": 0.001789705664826999,
+      "pr_auc": 0.9741999897176955
+    },
+    {
+      "model": "Boosting (shallow)",
+      "roc_auc": 0.9970088465368706,
+      "roc_auc_std": 0.0006810521754975379,
+      "pr_auc": 0.9982947856337494
+    },
+    {
+      "model": "Boosting (deep)",
+      "roc_auc": 0.9999961004769731,
+      "roc_auc_std": 3.2898247557284783e-06,
+      "pr_auc": 0.9999970981857335
+    }
+  ],
+  "primary_model": "Boosting (shallow)",
+  "threshold": 0.15,
+  "business_assumptions": {
+    "value_saved": 800,
+    "cost_contact": 100,
+    "success_rate": 0.25
+  },
+  "too_good_to_be_true": true,
+  "test": {
+    "roc_auc": 0.996835296569655,
+    "roc_auc_low": 0.995703747790825,
+    "roc_auc_high": 0.9979058067894239,
+    "pr_auc": 0.998161034344633,
+    "brier": 0.012392202115996568,
+    "threshold": 0.15,
+    "share_contacted_pct": 56.620000000000005,
+    "precision": 0.9947015188979159,
+    "recall": 0.9896327534703918,
+    "tp": 5632,
+    "fp": 30,
+    "fn": 59,
+    "tn": 4279,
+    "profit_model": 56.02,
+    "profit_everyone": 13.82,
+    "top20_share_of_churners_pct": 35.14320857494289,
+    "top20_lift": 1.7571604287471445
+  }
+}

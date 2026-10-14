@@ -17,6 +17,8 @@ def load_config(path):
         "random_state": 42,
         "cv_folds": 5,
         "n_bootstrap": 1000,
+        "sample_rows": None,
+        "allow_suspicious_data": False,
     }
     business = {"value_saved": 800, "cost_contact": 100, "success_rate": 0.25}
 

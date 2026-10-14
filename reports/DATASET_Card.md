@@ -6,7 +6,7 @@ Lincense : IBM sample data (no license file found)
 
 #Data Overview
 Rows : 7043, Columns : 21
-Telecommunications provider (fictional data)
+Telecommunications provider
 
 #Target Variable
 'CHURN'
@@ -16,8 +16,7 @@ Class balance : 26.5% churned and 73.5 active
 senior citizen, partner, internet service, online security, tech support, monthly charges, total charges, contract type, payment method and tenure
 
 #Drawbacks
-one snapshot in time , no temporal trends
-fictional company 
+one snapshot in time , no temporal trends 
 No cost data
 Churn reason not provided 
 No customer feedback or satisfaction

@@ -1,0 +1,53 @@
+{
+  "dataset": "kaggle_nocontract",
+  "rows": 50000,
+  "churn_rate": 0.5691,
+  "data_warnings": [],
+  "model_comparison": [
+    {
+      "model": "Logistic Regression",
+      "roc_auc": 0.9265247206249816,
+      "roc_auc_std": 0.001560294529774261,
+      "pr_auc": 0.9529754966041617
+    },
+    {
+      "model": "Boosting (shallow)",
+      "roc_auc": 0.9865927485291076,
+      "roc_auc_std": 0.0008044609116419061,
+      "pr_auc": 0.9926904842082495
+    },
+    {
+      "model": "Boosting (deep)",
+      "roc_auc": 0.9890595064375388,
+      "roc_auc_std": 0.0011750950136379904,
+      "pr_auc": 0.9943725991969865
+    }
+  ],
+  "primary_model": "Boosting (shallow)",
+  "threshold": 0.2,
+  "business_assumptions": {
+    "value_saved": 800,
+    "cost_contact": 100,
+    "success_rate": 0.25
+  },
+  "too_good_to_be_true": true,
+  "test": {
+    "roc_auc": 0.9855405556011598,
+    "roc_auc_low": 0.9832281833546541,
+    "roc_auc_high": 0.9879936808554196,
+    "pr_auc": 0.9921805221282227,
+    "brier": 0.025629473394407434,
+    "threshold": 0.2,
+    "share_contacted_pct": 55.400000000000006,
+    "precision": 0.9945848375451264,
+    "recall": 0.9681953962396767,
+    "tp": 5510,
+    "fp": 30,
+    "fn": 181,
+    "tn": 4279,
+    "profit_model": 54.8,
+    "profit_everyone": 13.82,
+    "top20_share_of_churners_pct": 35.14320857494289,
+    "top20_lift": 1.7571604287471445
+  }
+}
