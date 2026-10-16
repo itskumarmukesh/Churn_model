@@ -1,6 +1,6 @@
 # Customer Churn Intelligence
 
-[Live demo](https://churn-intelligence-model.streamlit.app/)
+[![Live demo](https://img.shields.io/badge/Live%20demo-Streamlit-FF4B4B)](https://churn-intelligence-model.streamlit.app/)
 
 
 A reusable, config-driven pipeline that predicts which telecom customers are likely to leave and turns the predictions into a retention decision. Built with strict evaluation discipline, a locked test set, no data leakage, honest probabilities, automatic data-quality gates and stated limitations.
