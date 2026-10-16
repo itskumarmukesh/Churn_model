@@ -70,7 +70,9 @@ def export(config_path):
 
     app_dir = root / "app"
     app_dir.mkdir(exist_ok=True)
-    lines = ["streamlit",
+        lines = ["streamlit",
+             "sqlalchemy>=2.0",
+             "psycopg2-binary",
              "pandas==" + pd.__version__,
              "numpy==" + np.__version__,
              "scikit-learn==" + sklearn.__version__]

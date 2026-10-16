@@ -1,4 +1,5 @@
 import json
+import sys
 from pathlib import Path
 
 import joblib
@@ -6,12 +7,20 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import usage
+
 ROOT = Path(__file__).resolve().parents[1]
 REPO_URL = "https://github.com/itskumarmukesh/Churn_model"
 
 st.set_page_config(page_title="Customer Churn Intelligence", layout="wide")
 
-# starting values
+usage.is_owner()
+if "visit_logged" not in st.session_state:
+    st.session_state["visit_logged"] = True
+    usage.log_event("visit")
+
+# starting values for the one-click examples
 PRESETS = {
     "Typical customer": {},
     "High-risk example: new fiber customer on a monthly contract": {
@@ -46,7 +55,7 @@ def choose(meta, col, label, preset, prefix, drop=(), container=st):
     return container.selectbox(label, options, index=options.index(start), key=prefix + col)
 
 
-# tenure, monthly charges and total charges are strongly related, so their weights cannot be read one by one so combine them into a single factor
+# tenure, monthly charges and total charges are strongly related, so their weights cannot be read one by one; we combine them into a single factor
 GROUPED = {"tenure", "MonthlyCharges", "TotalCharges"}
 
 
@@ -77,7 +86,7 @@ def explain(model, meta, row):
                 chosen[col] = category
         else:
             info = meta["numeric"].get(name, {})
-            if info.get("min") == 0 and info.get("max") == 1:        # a yes/no number such as SeniorCitizen
+            if info.get("min") == 0 and info.get("max") == 1:
                 rows.append((name + (" = yes" if value > mean else " = no"), effect))
             else:
                 rows.append((name + (" is above average" if value > mean else " is below average"), effect))
@@ -99,7 +108,7 @@ except Exception as error:
 
 base_rate = meta["baseline_churn_rate"]
 
-#sidebar: business assumptions
+#sidebar
 st.sidebar.header("Business assumptions")
 st.sidebar.caption("Illustrative numbers. Change them and watch the recommendation move.")
 value_saved = st.sidebar.number_input("Value of a saved customer ($)", min_value=1.0,
@@ -118,12 +127,15 @@ st.title("Customer Churn Intelligence")
 st.caption("Live demo of an end-to-end churn model. Data: IBM Telco sample dataset (a fictional "
            "company). A demonstration, not a tool for real customer decisions.")
 
-tab_score, tab_results, tab_about = st.tabs(["Score a customer", "Model results", "About"])
+tab_score, tab_results, tab_usage, tab_about = st.tabs(["Score a customer", "Model results", "Usage", "About"])
 
 with tab_score:
     preset_name = st.selectbox("Start from an example", list(PRESETS.keys()))
     preset = PRESETS[preset_name]
-    prefix = str(list(PRESETS.keys()).index(preset_name)) + "_"      # new keys reset the widgets
+    if st.session_state.setdefault("last_preset", preset_name) != preset_name:
+        usage.log_event("example_selected", {"example": preset_name})
+        st.session_state["last_preset"] = preset_name
+    prefix = str(list(PRESETS.keys()).index(preset_name)) + "_"
 
     left, right = st.columns([2, 1])
     values = {}
@@ -138,7 +150,7 @@ with tab_score:
         values["Partner"] = choose(meta, "Partner", "Has a partner", preset, prefix, container=c1)
         values["Dependents"] = choose(meta, "Dependents", "Has dependents", preset, prefix, container=c1)
         t_info = meta["numeric"]["tenure"]
-        tenure_min = max(1, int(t_info["min"]))      # 0-month customers were never billed
+        tenure_min = max(1, int(t_info["min"]))
         tenure_start = int(min(max(preset.get("tenure", t_info["default"]), tenure_min), t_info["max"]))
         tenure = c1.slider("Tenure (months)", tenure_min, int(t_info["max"]), tenure_start,
                            key=prefix + "tenure")
@@ -177,6 +189,14 @@ with tab_score:
         values["TotalCharges"] = float(tenure * monthly)
         c3.caption("Total charges is estimated as tenure x monthly charges.")
 
+    # "engaged" = the visitor changed something compared with what the page first showed
+    signature = json.dumps(values, sort_keys=True, default=str)
+    if "first_signature" not in st.session_state:
+        st.session_state["first_signature"] = signature
+    elif signature != st.session_state["first_signature"] and not st.session_state.get("engaged_logged"):
+        st.session_state["engaged_logged"] = True
+        usage.log_event("engaged")
+
     row = pd.DataFrame([values])[meta["feature_columns"]]
     prob = float(model.predict_proba(row)[0, 1])
     gain = prob * success_rate * value_saved - cost_contact
@@ -208,6 +228,20 @@ with tab_score:
         e2.markdown("**Pushing the risk down**")
         e2.dataframe(down.round(2), hide_index=True)
 
+    st.divider()
+    with st.form("feedback_form", clear_on_submit=True):
+        st.markdown("**Was this demo useful?**")
+        rating = st.radio("Rating from 1 (not useful) to 5 (very useful)", [1, 2, 3, 4, 5],
+                          index=None, horizontal=True)
+        comment = st.text_area("Optional comment (please do not enter personal information)", max_chars=300)
+        sent = st.form_submit_button("Send feedback")
+    if sent:
+        if rating is None:
+            st.warning("Please pick a rating from 1 to 5 first.")
+        else:
+            usage.log_event("feedback", {"rating": rating, "comment": comment.strip()})
+            st.success("Thank you for the feedback!")
+
 with tab_results:
     st.subheader("How well does the model work? (held-out test set, evaluated once)")
     res_path = ROOT / "reports" / "results_telco.json"
@@ -230,6 +264,35 @@ with tab_results:
         st.subheader("The same pipeline on other datasets")
         st.markdown(comparison.read_text(encoding="utf-8"))
 
+with tab_usage:
+    st.subheader("Live usage of this demo")
+    stats = usage.load_stats()
+    if stats is None:
+        st.info("Usage tracking is not set up in this deployment.")
+    else:
+        o = stats["overview"].iloc[0]
+        if int(o["visits"]) == 0:
+            st.info("No visits recorded yet.")
+        else:
+            u1, u2, u3, u4 = st.columns(4)
+            u1.metric("Visits", int(o["visits"]), help="One visit = one browser session.")
+            u2.metric("Engaged visits", int(o["engaged"]),
+                      help="Visitors who changed something after the page first loaded.")
+            u3.metric("Examples opened", int(o["example_clicks"]))
+            fb = stats["feedback"].iloc[0]
+            n_fb = int(fb["responses"])
+            u4.metric("Feedback", f"{n_fb} response" + ("" if n_fb == 1 else "s"),
+                      help="Average rating " + (f"{float(fb['avg_rating']):.1f} / 5" if int(fb["responses"]) else "n/a"))
+            if len(stats["daily"]):
+                st.markdown("**Last 30 days**")
+                st.bar_chart(stats["daily"].set_index("day")[["visits", "engaged"]])
+            if len(stats["examples"]):
+                st.markdown("**Examples people opened**")
+                st.dataframe(stats["examples"], hide_index=True)
+            st.caption("Counting since " + str(o["since"])[:10] + ". A visit is one browser session "
+                       "(reloading the page starts a new one), so this counts visits, not unique people. "
+                       "The owner's own visits are excluded. Mostly friends and classmates so far.")
+
 with tab_about:
     st.markdown(f"""
 **What this is.** A churn model from a config-driven pipeline that ran unchanged on three
@@ -245,5 +308,10 @@ Explanations are for a linear model and describe associations, not causes. The t
 1 month: the 11 customers with 0 months in the sample had not been billed yet, and none of them left,
 so the model would wrongly read "no billing history" as "safe".
 
+**Privacy.** The page counts anonymous visits and clicks to show real usage. It stores a random
+session id, the time, which example was opened and optional feedback. It does not store IP addresses,
+names or emails, and the customers shown here are made-up examples.
+
 **Code, reports and tests:** [Churn_model on GitHub](https://github.com/itskumarmukesh/Churn_model)
+
 """)
