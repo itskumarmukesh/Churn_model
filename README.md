@@ -1,4 +1,8 @@
 # Customer Churn Intelligence
+
+[Live demo](https://churn-intelligence-model.streamlit.app/)
+
+
 A reusable, config-driven pipeline that predicts which telecom customers are likely to leave and turns the predictions into a retention decision. Built with strict evaluation discipline, a locked test set, no data leakage, honest probabilities, automatic data-quality gates and stated limitations.
 
 ## Results
@@ -34,13 +38,33 @@ Month-to-month contracts, the first year of service, fiber optic service and ele
 These are associations, not proven causes. See `reports/Business Recommendation.md`.
 
 ## Ouickstart
+Download the datasets (links below) into `data/raw/` with these exact file names:
+`Telco-Customer-Churn.csv`, `cell2celltrain.csv`, `customer_churn_dataset-training-master.csv`.
+```
+git clone https://github.com/itskumarmukesh/Churn_model.git
+cd Churn_model
 pip install -r requirements.txt
+
 cd src
-python -m churn.run ..\configs\telco.yaml # or ../configs/telco.yaml on macOS/Linux
+python -m churn.run ..\configs\telco.yaml          # macOS/Linux: ../configs/telco.yaml
 python -m churn.run ..\configs\cell2cell.yaml
-python -m churn.compare .. # builds reports/CROSS_DATASET_COMPARISON.md
+python -m churn.compare ..                         # builds reports/CROSS_DATASET_COMPARISON.md
 cd ..
 python -m pytest tests -q
+```
+Run the demo locally:
+```
+pip install streamlit sqlalchemy psycopg2-binary
+cd src
+python -m churn.export ..\configs\telco.yaml       # trains and saves the model for the app
+cd ..
+streamlit run app\streamlit_app.py
+```
+Usage tracking is optional. To enable it, create `.streamlit/secrets.toml` (never commit it)
+with `DATABASE_URL` (a PostgreSQL connection string) and `OWNER_KEY`. Without it the app works
+normally and the Usage tab says tracking is not set up.
+To add a dataset: copy a file in `configs/`, set the target, ID column, columns to drop and the
+business assumptions. No code changes are needed.
 
 ## Repository layout
 - `src/churn/`: `config.py`, `data.py` (loading and data checks), `model.py`, `evaluate.py`, `run.py` (end-to-end), `compare.py` (cross-dataset table)
@@ -65,3 +89,5 @@ python -m pytest tests -q
 - The models find who is likely to leave, not what would keep them; that needs an A/B test.
 - Cell2Cell's retention-team columns are excluded by default because they may be caused by the customer already wanting to leave.
 See `reports/Evaluation_Report.md`.
+
+Built by [@itskumarmukesh](https://github.com/itskumarmukesh).
