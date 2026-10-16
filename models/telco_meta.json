@@ -1,0 +1,213 @@
+{
+  "dataset": "telco",
+  "model_name": "Logistic Regression",
+  "explainable": true,
+  "trained_on_rows": 5634,
+  "baseline_churn_rate": 0.2653532126375577,
+  "threshold": 0.55,
+  "business": {
+    "value_saved": 800,
+    "cost_contact": 100,
+    "success_rate": 0.25
+  },
+  "feature_columns": [
+    "SeniorCitizen",
+    "Partner",
+    "Dependents",
+    "tenure",
+    "PhoneService",
+    "MultipleLines",
+    "InternetService",
+    "OnlineSecurity",
+    "OnlineBackup",
+    "DeviceProtection",
+    "TechSupport",
+    "StreamingTV",
+    "StreamingMovies",
+    "Contract",
+    "PaperlessBilling",
+    "PaymentMethod",
+    "MonthlyCharges",
+    "TotalCharges"
+  ],
+  "numeric": {
+    "SeniorCitizen": {
+      "min": 0.0,
+      "max": 1.0,
+      "default": 0.0
+    },
+    "tenure": {
+      "min": 0.0,
+      "max": 72.0,
+      "default": 29.0
+    },
+    "MonthlyCharges": {
+      "min": 18.4,
+      "max": 118.75,
+      "default": 70.5
+    },
+    "TotalCharges": {
+      "min": 18.85,
+      "max": 8684.8,
+      "default": 1398.125
+    }
+  },
+  "categorical": {
+    "Partner": {
+      "options": [
+        "No",
+        "Yes"
+      ],
+      "default": "No"
+    },
+    "Dependents": {
+      "options": [
+        "No",
+        "Yes"
+      ],
+      "default": "No"
+    },
+    "PhoneService": {
+      "options": [
+        "No",
+        "Yes"
+      ],
+      "default": "Yes"
+    },
+    "MultipleLines": {
+      "options": [
+        "No",
+        "No phone service",
+        "Yes"
+      ],
+      "default": "No"
+    },
+    "InternetService": {
+      "options": [
+        "DSL",
+        "Fiber optic",
+        "No"
+      ],
+      "default": "Fiber optic"
+    },
+    "OnlineSecurity": {
+      "options": [
+        "No",
+        "No internet service",
+        "Yes"
+      ],
+      "default": "No"
+    },
+    "OnlineBackup": {
+      "options": [
+        "No",
+        "No internet service",
+        "Yes"
+      ],
+      "default": "No"
+    },
+    "DeviceProtection": {
+      "options": [
+        "No",
+        "No internet service",
+        "Yes"
+      ],
+      "default": "No"
+    },
+    "TechSupport": {
+      "options": [
+        "No",
+        "No internet service",
+        "Yes"
+      ],
+      "default": "No"
+    },
+    "StreamingTV": {
+      "options": [
+        "No",
+        "No internet service",
+        "Yes"
+      ],
+      "default": "No"
+    },
+    "StreamingMovies": {
+      "options": [
+        "No",
+        "No internet service",
+        "Yes"
+      ],
+      "default": "No"
+    },
+    "Contract": {
+      "options": [
+        "Month-to-month",
+        "One year",
+        "Two year"
+      ],
+      "default": "Month-to-month"
+    },
+    "PaperlessBilling": {
+      "options": [
+        "No",
+        "Yes"
+      ],
+      "default": "Yes"
+    },
+    "PaymentMethod": {
+      "options": [
+        "Bank transfer (automatic)",
+        "Credit card (automatic)",
+        "Electronic check",
+        "Mailed check"
+      ],
+      "default": "Electronic check"
+    }
+  },
+  "feature_means": [
+    6.999489143536663e-16,
+    -8.315834511746824e-17,
+    -2.4108037776471716e-16,
+    -2.1696051652685434e-17,
+    -9.077511747446574e-16,
+    0.5156194533191338,
+    0.48438054668086616,
+    0.7019879304224352,
+    0.29801206957756476,
+    0.09921902733404331,
+    0.9007809726659567,
+    0.47657082002129925,
+    0.09921902733404331,
+    0.42421015264465745,
+    0.3438054668086617,
+    0.44071707490237844,
+    0.2154774582889599,
+    0.4964501242456514,
+    0.2154774582889599,
+    0.2880724174653887,
+    0.4334398296059638,
+    0.2154774582889599,
+    0.3510827121050763,
+    0.4387646432374867,
+    0.2154774582889599,
+    0.3457578984735534,
+    0.49183528576499824,
+    0.2154774582889599,
+    0.2926872559460419,
+    0.3951011714589989,
+    0.2154774582889599,
+    0.38942137025204115,
+    0.3935037273695421,
+    0.2154774582889599,
+    0.39101881434149804,
+    0.5505857294994675,
+    0.20820021299254526,
+    0.24121405750798722,
+    0.40876819311324103,
+    0.5912318068867589,
+    0.2208022719204828,
+    0.21529996450124245,
+    0.33564075257365994,
+    0.22825701100461485
+  ],
+  "sklearn_version": "1.7.2"
+}
